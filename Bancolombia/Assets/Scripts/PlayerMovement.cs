@@ -6,17 +6,13 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] CharacterController2D controller;
     public float speed;
+    float actualSpeed;
     bool jump = false;
     float horizontalMove = 0f;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     void Update()
     {
-        horizontalMove = Input.GetAxisRaw("Horizontal") * speed;
+        horizontalMove = Input.GetAxisRaw("Horizontal") * actualSpeed;
         if (Input.GetKey(KeyCode.Space))
         {
             jump = true;
@@ -27,5 +23,15 @@ public class PlayerMovement : MonoBehaviour
     {
         controller.Move(horizontalMove * Time.fixedDeltaTime, jump);
         jump = false;
+    }
+
+    public void EbanleMovement ()
+    {
+        actualSpeed = speed;
+    }
+
+    public void DisableMovement ()
+    {
+        actualSpeed = 0;
     }
 }

@@ -28,5 +28,10 @@ namespace Bancolombia.Traps
             SpikesSequence.Join(m_Spikes_Back.DOLocalMoveY(-0.1f, m_Duration).SetEase(m_Ease));
             SpikesSequence.SetLoops(-1, LoopType.Yoyo);
         }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            print("murio en la trampa");
+        }
     }
 }
