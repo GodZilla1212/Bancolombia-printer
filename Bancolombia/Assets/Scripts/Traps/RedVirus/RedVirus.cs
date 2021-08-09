@@ -7,7 +7,7 @@ namespace Bancolombia.Traps
     public class RedVirus : MonoBehaviour
     {
         [SerializeField]
-        private float m_speed = 1;
+        private float m_speed = 100;
 
         void Start() {
 

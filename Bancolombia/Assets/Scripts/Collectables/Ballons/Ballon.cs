@@ -31,13 +31,20 @@ namespace Bancolombia{
             m_Text = transform.GetComponentInChildren<TMP_Text>();
             m_Text.text = m_Answertext;
         }
-        public void CorrectBallon() {
+        void CorrectBallon() {
             GameManager.CorrectAnswers(m_Answer, m_Answertext);
             transform.DOScale(0, m_Duration).SetEase(m_Ease).OnComplete(()=> Destroy(gameObject));
         }
-        public void IncorrectBallon() {
+        void IncorrectBallon() {
             GameManager.IncorrectAnswer();
-            transform.DOScale(0, m_Duration).SetEase(m_Ease).OnComplete(() => Destroy(gameObject));
+            //transform.DOScale(0, m_Duration).SetEase(m_Ease).OnComplete(() => Destroy(gameObject));
+            Destroy(gameObject);
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (m_IsCorrect) CorrectBallon();
+            else IncorrectBallon();
         }
     }
 }

@@ -15,7 +15,7 @@ public class CharacterController2D : MonoBehaviour
 	private bool m_FacingRight = true;  // For determining which way the player is currently facing.
 	private Vector3 m_Velocity = Vector3.zero;
 	private Transform child;
-	private Vector3 rotationValue = new Vector3(0, 0, 30);
+	private Vector3 rotationValue = new Vector3(0, 0, 25);
 	[Header("Events")]
 	[Space]
 
