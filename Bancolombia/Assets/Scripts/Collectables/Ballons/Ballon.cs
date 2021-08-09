@@ -5,7 +5,7 @@ namespace Bancolombia{
     using TMPro;
     using UnityEngine;
 
-    public class Ballon : MonoBehaviour{
+    public class Ballon : MonoBehaviour, IComparable<Ballon>{
 
         [SerializeField]
         private bool m_IsCorrect;
@@ -45,6 +45,17 @@ namespace Bancolombia{
         {
             if (m_IsCorrect) CorrectBallon();
             else IncorrectBallon();
+        }
+
+        public void SetAnswer (string a, bool c)
+        {
+            m_Answertext = a;
+            m_IsCorrect = c;
+        }
+
+        public int CompareTo(Ballon other)
+        {
+            return UnityEngine.Random.Range(1 , 6);
         }
     }
 }
