@@ -1,19 +1,32 @@
 namespace Bancolombia.data
 {
     using System;
+    using DG.Tweening;
     using UnityEngine.UI;
     using UnityEngine.SceneManagement;
     using UnityEngine;
 
     public class GameManager : MonoBehaviour {
 
-        [Header("UI Settings")]
+        [Header("Transition Settings")]
         [Space(5)]
         [SerializeField]
-        private Button m_ContinueButton;
+        private GameObject m_CanvasTransition;
+
+        [SerializeField]
+        private Image m_Transition;
+
+        [SerializeField]
+        private Ease m_TransitionEase;
 
         [NonSerialized]
-        private static GameManager m_GM;
+        public static GameManager m_GM;
+
+        /// <summary>
+        /// Ui info
+        /// </summary>
+        [NonSerialized]
+        private Button m_ContinueButton;
 
         /// <summary>
         /// User data
@@ -33,13 +46,28 @@ namespace Bancolombia.data
         [NonSerialized]
         private bool m_EnableToDot;
 
+        [NonSerialized]
+        private int m_Tries = 0;
+
+        private void InizializedSetup() {
+            m_Email = null;
+            m_EnableToAtt = false;
+            m_EnableToDot = false;
+            if (ContinueButton == null) {
+                Debug.Log("Dont worry, you be in other scene");
+            }
+            else {
+                ContinueButton.interactable = false;
+            }
+        }
+
         public void ValidationEmail(string email) {
 
             m_Email = email;
 
             m_EnableToAtt = false;
             m_EnableToDot = false;
-            m_ContinueButton.interactable = false;
+            ContinueButton.interactable = false;
 
             for (int i = 0; i < m_Email.Length; i++) {
                 if (m_Email[i] == '@') {
@@ -49,33 +77,65 @@ namespace Bancolombia.data
                     m_EnableToDot = true;
                 }
                 if (m_EnableToAtt && m_EnableToDot) {
-                    m_ContinueButton.interactable = true;
+                    ContinueButton.interactable = true;
                 }
             }
         }
 
         public void NextScene(string NameScene) {
 
-            print("Loading scene " + NameScene);
-            SceneManager.LoadScene(NameScene);
+            m_CanvasTransition.SetActive(true);
+            m_Transition.DOFade(1, 2).SetEase(m_TransitionEase).OnComplete(() => SceneManager.LoadScene(NameScene));
+            SceneManager.sceneLoaded += OnSceneLoaded;
 
         }
 
-        private void InizializedSetup() {
-            m_Email = null;
-            m_EnableToAtt = false;
-            m_EnableToDot = false;
-            m_ContinueButton.interactable = false;
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+            Debug.Log("OnSceneLoaded: " + scene.name);
+            m_Transition.DOFade(0, 2).SetEase(m_TransitionEase).OnComplete(() => m_CanvasTransition.SetActive(false));
+        }
+
+        public static void CorrectAnswers(int enumAnswer, string Answer) {
+            m_GM.m_Answers[enumAnswer] = Answer;
+            print(m_GM.m_Answers[enumAnswer]);
+        }
+
+        public static void IncorrectAnswer() {
+            m_GM.m_Tries++;
+            print("Te equibocaste, te queda una oportunidad mas");
+        }
+
+        public void StartGameplay() {
         }
 
         private void Awake() {
             if (GameManager.m_GM == null) {
                 GameManager.m_GM = this;
                 DontDestroyOnLoad(gameObject);
+                DOTween.Init();
                 InizializedSetup();
             }
             else {
                 Destroy(gameObject);
+            }
+        }
+
+        private void Start() {
+
+            m_CanvasTransition.SetActive(true);
+            m_Transition.DOFade(0, 2).SetEase(m_TransitionEase).OnComplete(()=> m_CanvasTransition.SetActive(false));
+
+        }
+
+        public Button ContinueButton {
+            get {
+                if (GameObject.Find("ValidateButton_inputField") == null) {
+                    return null;
+                }
+                else {
+                    return m_ContinueButton = GameObject.Find("ValidateButton_inputField").
+                        GetComponent<Button>();
+                }
             }
         }
 
