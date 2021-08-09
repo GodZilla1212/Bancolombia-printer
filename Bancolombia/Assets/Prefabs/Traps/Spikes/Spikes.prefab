@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 624001943475937040}
   - component: {fileID: 624001943475937043}
   - component: {fileID: 624001943475937042}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Spikes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.008840442, y: 0.031662703}
@@ -84,7 +84,7 @@ GameObject:
   m_Component:
   - component: {fileID: 624001943545692919}
   - component: {fileID: 624001943545692916}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Spikes_Front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -144,7 +144,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 4e17526873b19154a8d3cd7ba4068584, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
@@ -166,7 +166,7 @@ GameObject:
   m_Component:
   - component: {fileID: 624001944731802262}
   - component: {fileID: 624001944731802263}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Spikes_back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -226,7 +226,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 4e17526873b19154a8d3cd7ba4068584, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
