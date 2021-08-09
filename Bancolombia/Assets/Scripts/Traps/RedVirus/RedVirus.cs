@@ -15,5 +15,10 @@ namespace Bancolombia.Traps
                 .SetEase(Ease.Linear)
                 .SetLoops(-1, LoopType.Incremental);
         }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            print("murio en la trampa");
+        }
     }
 }
