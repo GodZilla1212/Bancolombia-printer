@@ -49,11 +49,13 @@ namespace Bancolombia{
             GameManager.IncorrectAnswer();
             m_PlayerMovement.DisableMovement();
             //transform.DOScale(0, m_Duration).SetEase(m_Ease).OnComplete(() => Destroy(gameObject));
-            Destroy(gameObject);
+            gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            m_Text.enabled = false;
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
+            GetComponent<AudioSource>().Play();
             if (m_IsCorrect) CorrectBallon();
             else IncorrectBallon();
         }
