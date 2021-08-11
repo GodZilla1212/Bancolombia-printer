@@ -5,8 +5,30 @@ namespace Bancolombia.data
     using DG.Tweening;
     using UnityEngine.UI;
     using UnityEngine.SceneManagement;
+    using UnityEngine.Networking;
     using UnityEngine;
 
+    [Serializable]
+    public class Data {
+
+        public string SaveToString() {
+            return JsonUtility.ToJson(this);
+        }
+
+        public string email = "";
+        public string question_1 = "";
+        public string question_2 = "";
+        public string question_3 = "";
+        public string question_4 = "";
+        public string question_5 = "";
+        public string question_6 = "";
+        public string question_7 = "";
+        public string question_8 = "";
+        public string question_9 = "";
+        public string question_10 = "";
+        public string question_11 = "";
+        public string question_12 = "";
+    }
     public class GameManager : MonoBehaviour {
 
         [Header("Transition Settings")]
@@ -36,7 +58,7 @@ namespace Bancolombia.data
         private string m_Email;
 
         [NonSerialized]
-        private string[] m_Answers = new string[11];
+        private string[] m_Answers = new string[12];
 
         /// <summary>
         /// InputField Control
@@ -119,6 +141,45 @@ namespace Bancolombia.data
 
         public void ResetAllGame() {
             InizializedSetup();
+        }
+
+        public void SendDataToServer() {
+
+            Data data = new Data();
+
+            data.email = m_Email;
+            data.question_1 = m_Answers[0];
+            data.question_2 = m_Answers[1];
+            data.question_3 = m_Answers[2];
+            data.question_4 = m_Answers[3];
+            data.question_5 = m_Answers[4];
+            data.question_6 = m_Answers[5];
+            data.question_7 = m_Answers[6];
+            data.question_8 = m_Answers[7];
+            data.question_9 = m_Answers[8];
+            data.question_10 = m_Answers[9];
+            data.question_11 = m_Answers[10];
+            data.question_12 = m_Answers[11];
+
+            StartCoroutine(PostAnswers(data));
+        }
+
+        IEnumerator PostAnswers(Data data) {
+
+            string url = "https://game-api-answer.herokuapp.com/register/info";
+            var request = new UnityWebRequest(url,"POST");
+
+            request.SetRequestHeader("Content-Type", "application/json");
+            byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(data.SaveToString());
+            request.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
+            yield return request.SendWebRequest();
+            var response = request.result;
+            if (response == UnityWebRequest.Result.Success) {
+                print("¡All perfect!");
+            }
+            else {
+                print("Error 404");
+            }
         }
 
         private void Awake() {
