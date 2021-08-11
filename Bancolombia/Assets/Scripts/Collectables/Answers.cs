@@ -9,7 +9,7 @@ public class Answers : MonoBehaviour
     public string[] wrongAnswers;
     public List<Bancolombia.Ballon> globos = new List<Bancolombia.Ballon>();
 
-    private void Awake()
+    private void Start()
     {
         int listPosition = 0;
         globos.Shuffle(6);

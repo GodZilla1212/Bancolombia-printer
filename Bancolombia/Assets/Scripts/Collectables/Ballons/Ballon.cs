@@ -26,17 +26,28 @@ namespace Bancolombia{
 
         [NonSerialized]
         private TMP_Text m_Text;
+
+        private LevelManager m_LevelManager;
+        private PlayerMovement m_PlayerMovement;
         private void Awake() {
 
             m_Text = transform.GetComponentInChildren<TMP_Text>();
             m_Text.text = m_Answertext;
         }
+
+        private void Start()
+        {
+            m_LevelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+            m_PlayerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
+        }
         void CorrectBallon() {
             GameManager.CorrectAnswers(m_Answer, m_Answertext);
+            m_LevelManager.AddScore();
             transform.DOScale(0, m_Duration).SetEase(m_Ease).OnComplete(()=> Destroy(gameObject));
         }
         void IncorrectBallon() {
             GameManager.IncorrectAnswer();
+            m_PlayerMovement.DisableMovement();
             //transform.DOScale(0, m_Duration).SetEase(m_Ease).OnComplete(() => Destroy(gameObject));
             Destroy(gameObject);
         }
@@ -50,6 +61,7 @@ namespace Bancolombia{
         public void SetAnswer (string a, bool c)
         {
             m_Answertext = a;
+            m_Text.text = a;
             m_IsCorrect = c;
         }
 
