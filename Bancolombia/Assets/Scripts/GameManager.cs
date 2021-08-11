@@ -1,6 +1,7 @@
 namespace Bancolombia.data
 {
     using System;
+    using System.Collections;
     using DG.Tweening;
     using UnityEngine.UI;
     using UnityEngine.SceneManagement;
@@ -35,7 +36,7 @@ namespace Bancolombia.data
         private string m_Email;
 
         [NonSerialized]
-        private string[] m_Answers;
+        private string[] m_Answers = new string[11];
 
         /// <summary>
         /// InputField Control
@@ -53,6 +54,9 @@ namespace Bancolombia.data
             m_Email = null;
             m_EnableToAtt = false;
             m_EnableToDot = false;
+            for (int i = 0; i < m_Answers.Length; i++) {
+                m_Answers[i] = null;
+            }
             if (ContinueButton == null) {
                 Debug.Log("Dont worry, you be in other scene");
             }
@@ -92,7 +96,12 @@ namespace Bancolombia.data
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
             Debug.Log("OnSceneLoaded: " + scene.name);
-            m_Transition.DOFade(0, 2).SetEase(m_TransitionEase).OnComplete(() => m_CanvasTransition.SetActive(false));
+            m_Transition.DOFade(0, 2).SetEase(m_TransitionEase)
+                .OnComplete(() => m_CanvasTransition.SetActive(false));
+            //if (scene.name == "Level") {
+            //    GameObject.Find("LevelManager")
+            //        .GetComponent<LevelManager>().Initlevel();
+            //}
         }
 
         public static void CorrectAnswers(int enumAnswer, string Answer) {
@@ -106,6 +115,10 @@ namespace Bancolombia.data
         }
 
         public void StartGameplay() {
+        }
+
+        public void ResetAllGame() {
+            InizializedSetup();
         }
 
         private void Awake() {
