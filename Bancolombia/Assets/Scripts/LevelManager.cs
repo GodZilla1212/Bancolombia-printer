@@ -31,6 +31,8 @@ public class LevelManager : MonoBehaviour{
     [SerializeField]
     private Button m_ButtonohNo;
 
+    int score = 10;
+
     public void Initlevel() {
         print("game is start");
         m_GameScore = 0;
@@ -56,9 +58,15 @@ public class LevelManager : MonoBehaviour{
         m_StartGame.interactable = true;
     }
 
-    public void AddScore(int score) {
+    public void AddScore() {
         m_GameScore += score;
         m_UiScore.text = m_GameScore.ToString();
+    }
+
+    public void GameLost ()
+    {
+        //tocó una trampa
+        print("levelmanager trampa");
     }
 
 }
