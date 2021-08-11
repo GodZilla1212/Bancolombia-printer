@@ -8,6 +8,7 @@ public class Answers : MonoBehaviour
     public string[] correctAnswers;
     public string[] wrongAnswers;
     public List<Bancolombia.Ballon> globos = new List<Bancolombia.Ballon>();
+    [SerializeField] AudioClip wrongClip;
 
     private void Start()
     {
@@ -23,6 +24,7 @@ public class Answers : MonoBehaviour
         for (int i = 0; i< globos.Count; i++)
         {
             globos[i].SetAnswer(wrongAnswers[i], false);
+            globos[i].GetComponent<AudioSource>().clip = wrongClip;
         }
     }
 }

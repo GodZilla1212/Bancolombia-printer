@@ -9,6 +9,12 @@ namespace Bancolombia.Traps
         [SerializeField]
         private float m_speed = 100;
 
+        [SerializeField]
+        private float m_Duration = 1;
+
+        [SerializeField]
+        private Ease m_Ease;
+
         private LevelManager m_LevelManager;
         private PlayerMovement m_PlayerMovement;
         void Start() {
@@ -24,6 +30,7 @@ namespace Bancolombia.Traps
             print("murio en la trampa");
             m_LevelManager.GameLost();
             m_PlayerMovement.DisableMovement();
+            GetComponent<AudioSource>().Play();
         }
     }
 }

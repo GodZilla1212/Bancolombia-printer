@@ -39,6 +39,7 @@ namespace Bancolombia.Traps
             print("murio en la trampa");
             m_LevelManager.GameLost();
             m_PlayerMovement.DisableMovement();
+            GetComponent<AudioSource>().Play();
         }
     }
 }

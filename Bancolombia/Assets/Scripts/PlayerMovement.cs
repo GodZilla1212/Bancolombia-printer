@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] CharacterController2D controller;
     public float speed;
+    public float jumpForce;
     float actualSpeed;
     bool jump = false;
     float horizontalMove = 0f;
@@ -28,10 +29,12 @@ public class PlayerMovement : MonoBehaviour
     public void EbanleMovement ()
     {
         actualSpeed = speed;
+        controller.m_JumpForce = jumpForce;
     }
 
     public void DisableMovement ()
     {
         actualSpeed = 0;
+        controller.m_JumpForce = 0;
     }
 }
