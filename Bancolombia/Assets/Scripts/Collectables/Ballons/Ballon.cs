@@ -46,7 +46,8 @@ namespace Bancolombia{
             transform.DOScale(0, m_Duration).SetEase(m_Ease).OnComplete(()=> Destroy(gameObject));
         }
         void IncorrectBallon() {
-            GameManager.IncorrectAnswer();
+            m_LevelManager.WorngAnswer(m_Answer, m_Answertext);
+            //GameManager.IncorrectAnswer(m_Answer, m_Answertext);
             m_PlayerMovement.DisableMovement();
             //transform.DOScale(0, m_Duration).SetEase(m_Ease).OnComplete(() => Destroy(gameObject));
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
