@@ -16,6 +16,7 @@ namespace Bancolombia.data
         }
 
         public string email = "";
+        public string initial_question = "";
         public string question_1 = "";
         public string question_2 = "";
         public string question_3 = "";
@@ -31,6 +32,8 @@ namespace Bancolombia.data
     }
     public class GameManager : MonoBehaviour {
 
+        #region Pirvate Fields
+
         [Header("Transition Settings")]
         [Space(5)]
         [SerializeField]
@@ -45,68 +48,19 @@ namespace Bancolombia.data
         [NonSerialized]
         public static GameManager m_GM;
 
-        /// <summary>
-        /// Ui info
-        /// </summary>
-        [NonSerialized]
-        private Button m_ContinueButton;
-
-        /// <summary>
-        /// User data
-        /// </summary>
         [NonSerialized]
         private string m_Email;
+
+        [NonReorderable]
+        private string m_InitialQuestion;
 
         [NonSerialized]
         private string[] m_Answers = new string[12];
 
-        /// <summary>
-        /// InputField Control
-        /// </summary>
-        [NonSerialized]
-        private bool m_EnableToAtt;
-
-        [NonSerialized]
-        private bool m_EnableToDot;
-
         [NonSerialized]
         private int m_Tries = 0;
 
-        private void InizializedSetup() {
-            m_Email = null;
-            m_EnableToAtt = false;
-            m_EnableToDot = false;
-            for (int i = 0; i < m_Answers.Length; i++) {
-                m_Answers[i] = null;
-            }
-            if (ContinueButton == null) {
-                Debug.Log("Dont worry, you be in other scene");
-            }
-            else {
-                ContinueButton.interactable = false;
-            }
-        }
-
-        public void ValidationEmail(string email) {
-
-            m_Email = email;
-
-            m_EnableToAtt = false;
-            m_EnableToDot = false;
-            ContinueButton.interactable = false;
-
-            for (int i = 0; i < m_Email.Length; i++) {
-                if (m_Email[i] == '@') {
-                    m_EnableToAtt = true;
-                }
-                if (m_Email[i] == '.') {
-                    m_EnableToDot = true;
-                }
-                if (m_EnableToAtt && m_EnableToDot) {
-                    ContinueButton.interactable = true;
-                }
-            }
-        }
+        #endregion
 
         public void NextScene(string NameScene) {
 
@@ -120,27 +74,17 @@ namespace Bancolombia.data
             Debug.Log("OnSceneLoaded: " + scene.name);
             m_Transition.DOFade(0, 2).SetEase(m_TransitionEase)
                 .OnComplete(() => m_CanvasTransition.SetActive(false));
-            //if (scene.name == "Level") {
-            //    GameObject.Find("LevelManager")
-            //        .GetComponent<LevelManager>().Initlevel();
-            //}
         }
 
         public static void CorrectAnswers(int enumAnswer, string Answer) {
             m_GM.m_Answers[enumAnswer] = Answer;
-            print(m_GM.m_Answers[enumAnswer]);
+            print("Correct answer " + m_GM.m_Answers[enumAnswer]);
         }
 
-        public static void IncorrectAnswer() {
+        public static void IncorrectAnswer(int enumAnswer, string Answer) {
+            m_GM.m_Answers[enumAnswer] = Answer;
+            print("Incorret answer " + m_GM.m_Answers[enumAnswer]);
             m_GM.m_Tries++;
-            print("Te equibocaste, te queda una oportunidad mas");
-        }
-
-        public void StartGameplay() {
-        }
-
-        public void ResetAllGame() {
-            InizializedSetup();
         }
 
         public void SendDataToServer() {
@@ -148,6 +92,7 @@ namespace Bancolombia.data
             Data data = new Data();
 
             data.email = m_Email;
+            data.initial_question = m_InitialQuestion;
             data.question_1 = m_Answers[0];
             data.question_2 = m_Answers[1];
             data.question_3 = m_Answers[2];
@@ -161,7 +106,8 @@ namespace Bancolombia.data
             data.question_11 = m_Answers[10];
             data.question_12 = m_Answers[11];
 
-            StartCoroutine(PostAnswers(data));
+            print("Este es el data");
+            //StartCoroutine(PostAnswers(data));
         }
 
         IEnumerator PostAnswers(Data data) {
@@ -187,7 +133,6 @@ namespace Bancolombia.data
                 GameManager.m_GM = this;
                 DontDestroyOnLoad(gameObject);
                 DOTween.Init();
-                InizializedSetup();
             }
             else {
                 Destroy(gameObject);
@@ -201,15 +146,41 @@ namespace Bancolombia.data
 
         }
 
-        public Button ContinueButton {
+        public string Email {
+            get{
+                return m_Email;
+            }
+            set {
+                m_Email = value;
+                Debug.Log("the email has been saved " + m_Email);
+            }
+        }
+
+        public string Question {
             get {
-                if (GameObject.Find("ValidateButton_inputField") == null) {
-                    return null;
-                }
-                else {
-                    return m_ContinueButton = GameObject.Find("ValidateButton_inputField").
-                        GetComponent<Button>();
-                }
+                return m_InitialQuestion;
+            }
+            set {
+                m_InitialQuestion = value;
+                Debug.Log("the answer of initial question has been saved " + m_InitialQuestion);
+            }
+        }
+
+        public string[] Answers {
+            get {
+                return m_Answers;
+            }
+            set {
+                m_Answers = value;
+            }
+        }
+
+        public int Tries {
+            get {
+                return m_Tries;
+            }
+            set {
+                m_Tries = value;
             }
         }
 

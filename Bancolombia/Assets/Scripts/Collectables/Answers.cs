@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Answers : MonoBehaviour
 {
+    public LevelManager levelManager;
     public string[] correctAnswers;
     public string[] wrongAnswers;
     public List<Bancolombia.Ballon> globos = new List<Bancolombia.Ballon>();
@@ -25,6 +26,13 @@ public class Answers : MonoBehaviour
         {
             globos[i].SetAnswer(wrongAnswers[i], false);
             globos[i].GetComponent<AudioSource>().clip = wrongClip;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision) {
+        if (collision.gameObject.tag == "Player") {
+            collision.gameObject.GetComponent<PlayerMovement>().DisableMovement();
+            levelManager.Win();
         }
     }
 }
