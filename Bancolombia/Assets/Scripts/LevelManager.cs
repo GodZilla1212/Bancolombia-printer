@@ -22,6 +22,9 @@ public class LevelManager : MonoBehaviour{
     private TMP_Text m_ParagraphIntro;
 
     [SerializeField]
+    private TMP_Text[] m_TextUIPlay;
+
+    [SerializeField]
     private Button m_StartGame;
 
     [SerializeField]
@@ -66,8 +69,11 @@ public class LevelManager : MonoBehaviour{
         print("game is start");
         print(GameManager.m_GM.Tries);
         m_GameScore = 0;
-        m_TitleIntro.alpha = 0;
-        m_ParagraphIntro.alpha = 0;
+        for (int i = 0; i < m_TextUIPlay.Length; i++) {
+            m_TextUIPlay[i].alpha = 0;
+        }
+        //m_TitleIntro.alpha = 0;
+        //m_ParagraphIntro.alpha = 0;
         m_ButtonBallonTry.interactable = false;
         m_StartGame.gameObject.SetActive(false);
         StartCoroutine(StartDealyGamePlay());
@@ -80,9 +86,10 @@ public class LevelManager : MonoBehaviour{
     private IEnumerator StartDealyGamePlay() {
         m_PlayUI.SetActive(true);
         yield return new WaitForSeconds(2);
-        m_TitleIntro.DOFade(1, 2);
-        yield return new WaitForSeconds(0.2f);
-        m_ParagraphIntro.DOFade(1, 2);
+        for (int i = 0; i < m_TextUIPlay.Length; i++) {
+            m_TextUIPlay[i].DOFade(1, 2);
+            yield return new WaitForSeconds(0.2f);
+        }
         yield return new WaitForSeconds(2);
         m_StartGame.gameObject.SetActive(true);
         yield return new WaitForSeconds(0.5f);
@@ -95,8 +102,9 @@ public class LevelManager : MonoBehaviour{
     }
 
     public void GameLost (){
+        m_ohNoUi.SetActive(true);
         if (GameManager.m_GM.Tries < 1) {
-            m_ohNoUi.SetActive(true);
+            
         }
         else {
             //StartCoroutine(DelayScreenLoser());

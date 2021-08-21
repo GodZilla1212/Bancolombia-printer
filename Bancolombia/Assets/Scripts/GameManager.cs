@@ -106,8 +106,7 @@ namespace Bancolombia.data
             data.question_11 = m_Answers[10];
             data.question_12 = m_Answers[11];
 
-            print("Este es el data");
-            //StartCoroutine(PostAnswers(data));
+            StartCoroutine(PostAnswers(data));
         }
 
         IEnumerator PostAnswers(Data data) {
