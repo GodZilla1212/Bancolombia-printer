@@ -61,11 +61,12 @@ namespace Bancolombia{
             else IncorrectBallon();
         }
 
-        public void SetAnswer (string a, bool c)
+        public void SetAnswer (string a, bool c, int d)
         {
             m_Answertext = a;
             m_Text.text = a;
             m_IsCorrect = c;
+            m_Answer = d;
         }
 
         public int CompareTo(Ballon other)

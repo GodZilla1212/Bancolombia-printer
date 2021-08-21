@@ -25,6 +25,7 @@ namespace Bancolombia.Traps
             m_Spikes_Front = transform.GetChild(1);
             m_Spikes_Back = transform.GetChild(0);
         }
+
         void Start() {
             m_LevelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
             m_PlayerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
@@ -36,7 +37,7 @@ namespace Bancolombia.Traps
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            print("murio en la trampa");
+            print("murio en los picos");
             m_LevelManager.GameLost();
             m_PlayerMovement.DisableMovement();
             GetComponent<AudioSource>().Play();

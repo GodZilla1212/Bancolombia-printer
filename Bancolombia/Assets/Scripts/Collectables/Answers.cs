@@ -10,6 +10,7 @@ public class Answers : MonoBehaviour
     public string[] wrongAnswers;
     public List<Bancolombia.Ballon> globos = new List<Bancolombia.Ballon>();
     [SerializeField] AudioClip wrongClip;
+    private int m_AnswerIndex;
 
     private void Start()
     {
@@ -18,13 +19,15 @@ public class Answers : MonoBehaviour
         for (int i = 0; i < globos.Count; i++)
         {
             listPosition++;
-            globos[i].SetAnswer(correctAnswers[i], true);
+            globos[i].SetAnswer(correctAnswers[i], true, m_AnswerIndex);
+            m_AnswerIndex++;
             globos.RemoveAt(i);
         }
 
         for (int i = 0; i< globos.Count; i++)
         {
-            globos[i].SetAnswer(wrongAnswers[i], false);
+            globos[i].SetAnswer(wrongAnswers[i], false, m_AnswerIndex);
+            m_AnswerIndex++;
             globos[i].GetComponent<AudioSource>().clip = wrongClip;
         }
     }
